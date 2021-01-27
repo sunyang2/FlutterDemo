@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 
 /* 尺寸限制类容器
 尺寸限制类容器用于限制容器大小，Flutter中提供了多种这样的容器，
@@ -30,6 +31,12 @@ SizedBox(
   height: 80.0,
   child: redBox
 )
+
+多重限制时，对于minWidth和minHeight来说，是取父子中相应数值较大的。实际上，只有这样才能保证父限制与子限制不冲突。
+
+UnconstrainedBox
+UnconstrainedBox不会对子组件产生任何限制，它允许其子组件按照其本身大小绘制。
+一般情况下，我们会很少直接使用此组件，但在"去除"多重限制的时候也许会有帮助
 */
 class ConstrainedBoxPage extends StatefulWidget {
   @override
@@ -37,15 +44,13 @@ class ConstrainedBoxPage extends StatefulWidget {
 }
 
 class _ConstrainedBoxPageState extends State<ConstrainedBoxPage> {
-  
   /// ConstrainedBox
   _constrainedBoxAction() {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        minWidth: double.infinity, //宽度尽可能大
-        minHeight: 50.0 //最小高度为50像素
-      ),
-      
+          minWidth: double.infinity, //宽度尽可能大
+          minHeight: 50.0 //最小高度为50像素
+          ),
       child: Container(
         height: 5.0,
         child: DecoratedBox(
@@ -62,6 +67,7 @@ class _ConstrainedBoxPageState extends State<ConstrainedBoxPage> {
       height: 80.0,
       child: Container(
         height: 5.0,
+        color: Colors.yellow,
         child: DecoratedBox(
           decoration: BoxDecoration(color: Colors.red),
         ),
@@ -69,8 +75,61 @@ class _ConstrainedBoxPageState extends State<ConstrainedBoxPage> {
     );
   }
 
+  _sizedBoxBody() {
+    return SizedBox(
+      height: 80,
+      width: 80,
+      child: Container(
+        color: Colors.yellowAccent,
+      ),
+    );
+  }
+
+  _constrainedBox3() {
+    return ConstrainedBox(
+      constraints: BoxConstraints(minHeight: 60.0, minWidth: 60.0),
+      child: ConstrainedBox(
+        //“去除”父级限制
+        constraints: BoxConstraints(minWidth: 90.0, minHeight: 20.0),
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: Colors.red),
+        ),
+      ),
+    );
+  }
+
+  _constrainedBox4() {
+    return ConstrainedBox(
+      constraints: BoxConstraints(minWidth: 60.0, minHeight: 100.0),
+      child: UnconstrainedBox(
+          child: ConstrainedBox(
+        constraints: BoxConstraints(minHeight: 20, minWidth: 40),
+        child: DecoratedBox(
+          decoration: BoxDecoration(color: Colors.red),
+        ),
+      )),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return _constrainedBox2();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('ConstrainedBox'),
+        actions: <Widget>[
+          UnconstrainedBox(
+            child: SizedBox(
+              width: 20,
+              height: 20,
+              child: CircularProgressIndicator(
+                strokeWidth: 3,
+                valueColor: AlwaysStoppedAnimation(Colors.white70),
+              ),
+            ),
+          )
+        ],
+      ),
+      body: _constrainedBox4(),
+    );
   }
 }

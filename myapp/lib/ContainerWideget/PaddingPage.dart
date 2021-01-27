@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'ConstrainedBoxPage.dart';
+import 'DecoratedBox.dart';
+import 'TransformPage.dart';
+import 'ContainerPage.dart';
+import 'ScaffoldOrTabBar.dart';
+import 'ClipTestRoute.dart';
 
 /* 填充（Padding）
 Padding可以给其子节点添加填充（留白），和边距效果类似。我们在前面很多示例中都已经使用过它了，现在来看看它的定义：
@@ -59,6 +64,6 @@ class _PaddingPageState extends State<PaddingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBoxPage();
+    return ClipTestRoute();
   }
 }
