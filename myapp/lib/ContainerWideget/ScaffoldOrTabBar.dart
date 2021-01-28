@@ -40,6 +40,11 @@ FloatingActionButton是Material设计规范中的一种特殊Button，通常悬�
 底部Tab导航栏
 可以通过Scaffold的bottomNavigationBar属性来设置底部导航，
 我们通过Material组件库提供的BottomNavigationBar和BottomNavigationBarItem两种组件来实现Material风格的底部导航栏
+
+
+抽屉菜单Drawer
+Scaffold的drawer和endDrawer属性可以分别接受一个Widget来作为页面的左、右抽屉菜单。
+如果开发者提供了抽屉菜单，那么当用户手指从屏幕左（或右）侧向里滑动时便可打开抽屉菜单
 */
 
 class ScaffoldOrTabBarPage extends StatefulWidget {
@@ -77,18 +82,17 @@ class _ScaffoldOrTabBarPageState extends State<ScaffoldOrTabBarPage>
 
   _bottomAppBar() {
     return BottomNavigationBar(
-        items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.business), label: 'Business'),
-          BottomNavigationBarItem(icon: Icon(Icons.school), label: 'School'),
-        ],
-        showUnselectedLabels: false,
-        showSelectedLabels: false,
-        currentIndex: _selectedIndex,
-        fixedColor: Colors.blue,
-        onTap: _onItemTapped,
-      );
+      items: [
+        BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+        BottomNavigationBarItem(icon: Icon(Icons.business), label: 'Business'),
+        BottomNavigationBarItem(icon: Icon(Icons.school), label: 'School'),
+      ],
+      showUnselectedLabels: false,
+      showSelectedLabels: false,
+      currentIndex: _selectedIndex,
+      fixedColor: Colors.blue,
+      onTap: _onItemTapped,
+    );
   }
 
   _bottomAppBar1() {
@@ -138,7 +142,7 @@ class _ScaffoldOrTabBarPageState extends State<ScaffoldOrTabBarPage>
       //floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
           //悬浮按钮
-          
+
           child: Icon(Icons.add),
           onPressed: _onAdd),
     );
